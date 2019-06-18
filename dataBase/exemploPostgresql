@@ -1,0 +1,37 @@
+//Baixa biblioteca
+@GrabConfig(systemClassLoader = true)
+// https://mvnrepository.com/artifact/postgresql/postgresql
+@Grapes(
+    @Grab(group='postgresql', module='postgresql', version='9.1-901-1.jdbc4')
+)
+
+
+import groovy.sql.Sql
+
+def url = 'jdbc:postgresql://localhost:5432/groovy_db'
+def user = 'postgres'
+def password = 'postgres'
+def driver = 'org.postgresql.Driver'
+def sql = Sql.newInstance(url, user, password, driver)
+
+// use 'sql' instance ...
+/*
+sql.execute("""
+create table pessoa(nome varchar(255), idade int)
+""")
+
+sql.execute("""
+insert into pessoa values('Acza',20);
+insert into pessoa values('Mikael',24);
+""")
+*/
+
+def query = """
+select * from pessoa
+"""
+
+sql.eachRow(query){
+    println it
+}
+
+sql.close()
